@@ -1,51 +1,51 @@
 package com.lf.gestioncobranza.service.impl;
 
-import com.lf.gestioncobranza.dao.FianzaRepository;
-import com.lf.gestioncobranza.model.Fianza;
+import com.lf.gestioncobranza.dto.ResponseFianza;
 import com.lf.gestioncobranza.service.FianzaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class FianzaServiceImpl implements FianzaService {
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private FianzaRepository fianzaRepository;
-
-    @Override
-    public List<Fianza> listarFianzas() {
-        return fianzaRepository.findAll();
+    public FianzaServiceImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public Fianza obtenerFianzaPorId(Long id) {
-        return fianzaRepository.findById(id).orElse(null);
-    }
+    public List<ResponseFianza> getAllFianzasOficina(Integer idOficina) {
+        String sql = "SELECT\n" +
+                "    f.id_fianza,\n" +
+                "    f.fianza,\n" +
+                "    f.movimiento,\n" +
+                "    f.fiado,\n" +
+                "    pp.id_pago_pendiente,\n" +
+                "    pp.fecha_movimiento,\n" +
+                "    pp.fecha_limite,\n" +
+                "    pp.importe\n" +
+                "FROM\n" +
+                "    fianzas AS f\n" +
+                "INNER JOIN\n" +
+                "    pago_pendiente AS pp\n" +
+                "ON\n" +
+                "    f.id_fianza = pp.id_fianza\n" +
+                "Where pp.id_oficina =" + idOficina;
+                return jdbcTemplate.query(sql, (rs, rowNum) -> new ResponseFianza(
+                rs.getLong("id_fianza"),
+                rs.getString("fianza"),
+                rs.getString("movimiento"),
+                rs.getString("fiado"),
+                rs.getLong("id_pago_pendiente"),
+                rs.getString("fecha_movimiento"),
+                rs.getString("fecha_limite"),
+                rs.getString("importe")
+        ));
 
-    @Override
-    public List<Fianza> buscarFianzasPorTipo(String tipoFianza) {
-        return fianzaRepository.findByTipoFianza(tipoFianza);
-    }
 
-    @Override
-    public Fianza crearFianza(Fianza fianza) {
-        return fianzaRepository.save(fianza);
-    }
-
-    @Override
-    public Fianza actualizarFianza(Long id, Fianza fianza) {
-        if (fianzaRepository.existsById(id)) {
-            fianza.setId(id);
-            return fianzaRepository.save(fianza);
-        }
-        return null;
-    }
-
-    @Override
-    public void eliminarFianza(Long id) {
-        if (fianzaRepository.existsById(id)) {
-            fianzaRepository.deleteById(id);
-        }
     }
 }

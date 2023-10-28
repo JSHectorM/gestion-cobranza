@@ -5,5 +5,5 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface ImportDataService {
-    void importExcelToDatabase(MultipartFile file) throws IOException;
+    void importExcelToDatabase(MultipartFile file, String oficina) throws IOException;
 }

@@ -37,7 +37,7 @@ public class ImportDataServiceImpl implements ImportDataService {
      * @param file Archivo Excel a importar.
      */
     @Override
-    public void importExcelToDatabase(MultipartFile file) {
+    public void importExcelToDatabase(MultipartFile file, String oficina) {
         if (!file.isEmpty()) {
             List<ImportData> importDataList = new ArrayList<>();
             try {
@@ -96,7 +96,7 @@ public class ImportDataServiceImpl implements ImportDataService {
                     pagoPendiente.setImporte(importData.getImporte());
                     pagoPendiente.setFianza(fianza);
                     pagoPendiente.setIdMoneda(obtenerValorMoneda(importData.getMoneda()));
-                    pagoPendiente.setIdOficina(14);
+                    pagoPendiente.setIdOficina((int) Long.parseLong(oficina));
 
 
                     System.out.println("pagoPendiente = " + pagoPendiente);
