@@ -16,4 +16,5 @@ public class ResponseFianza {
     private String fecha_movimiento;
     private String fecha_limite;
     private String importe;
+    private Integer id_moneda;
 }

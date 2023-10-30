@@ -27,7 +27,8 @@ public class FianzaServiceImpl implements FianzaService {
                 "    pp.id_pago_pendiente,\n" +
                 "    pp.fecha_movimiento,\n" +
                 "    pp.fecha_limite,\n" +
-                "    pp.importe\n" +
+                "    pp.importe,\n" +
+                "    pp.id_moneda\n" +
                 "FROM\n" +
                 "    fianzas AS f\n" +
                 "INNER JOIN\n" +
@@ -43,7 +44,8 @@ public class FianzaServiceImpl implements FianzaService {
                 rs.getLong("id_pago_pendiente"),
                 rs.getString("fecha_movimiento"),
                 rs.getString("fecha_limite"),
-                rs.getString("importe")
+                rs.getString("importe"),
+                rs.getInt("id_moneda")
         ));
 
 
