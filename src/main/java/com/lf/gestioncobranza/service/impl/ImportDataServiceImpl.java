@@ -10,7 +10,7 @@ import com.lf.gestioncobranza.service.ImportDataService;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.jetbrains.annotations.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -118,7 +118,7 @@ public class ImportDataServiceImpl implements ImportDataService {
      * @return Fecha límite.
      * @throws ParseException Excepción en caso de que el formato de la fecha no sea válido.
      */
-    @NotNull
+
     private Date stringToDate(Date fechaMov, String fechaLim) throws ParseException {
         String[] datePartsLim = fechaLim.split("\\+");
         if (datePartsLim.length != 2) {
